@@ -43,6 +43,7 @@ namespace TotalBackend.RestApi
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseAuthentication();
         }
     }
 }
