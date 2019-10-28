@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TotalBackend.Core.ApplicationService;
+using TotalBackend.Core.Entity;
 
 namespace TotalBackend.RestApi.Controllers
 {
@@ -19,30 +20,61 @@ namespace TotalBackend.RestApi.Controllers
         }
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<Incident>> Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                return Ok(_incidentService.GetAllIncidents());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+            try
+            {
+                return Ok(_incidentService.FindIncidentById(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<Incident> Post([FromBody] Incident incident)
         {
+            try
+            {
+                return Ok(_incidentService.CreateIncident(incident));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace + "\n" + e.InnerException);
+                return BadRequest(e.StackTrace + "\n" + e.InnerException);
+            }
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult<Incident> Put(int id, [FromBody] Incident incident)
         {
-        }
+            try
+            {
+                incident.Id = id;
+                return Ok(_incidentService.UpdateIncident(incident));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
 
+            }
+        }
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)

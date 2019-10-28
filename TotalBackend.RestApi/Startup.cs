@@ -10,6 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using TotalBackend.Core.ApplicationService;
+using TotalBackend.Core.ApplicationService.Services;
+using TotalBackend.Core.DomainService;
+using TotalBackend.infrastructure.Data.Repositories;
+using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace TotalBackend.RestApi
 {
@@ -26,6 +31,8 @@ namespace TotalBackend.RestApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddScoped<IIncidentRepository, IncidentRepository>();
+            services.AddScoped<IIncidentService, IncidentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,6 +41,12 @@ namespace TotalBackend.RestApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    var ctx = scope.ServiceProvider.GetService<Context>();
+                    var services = scope.ServiceProvider;
+                    var _ctx = scope.ServiceProvider.GetService<Context>();
+                }
             }
             else
             {
@@ -43,7 +56,7 @@ namespace TotalBackend.RestApi
 
             app.UseHttpsRedirection();
             app.UseMvc();
-            app.UseAuthentication();
+            
         }
     }
 }
