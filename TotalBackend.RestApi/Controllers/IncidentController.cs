@@ -75,10 +75,17 @@ namespace TotalBackend.RestApi.Controllers
 
             }
         }
-        // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<Incident> Delete(int id)
         {
+            try
+            {
+                return Ok(_incidentService.DeleteIncident(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

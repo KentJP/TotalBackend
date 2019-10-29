@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TotalBackend.Core.DomainService;
 using TotalBackend.Core.Entity;
@@ -16,27 +17,27 @@ namespace TotalBackend.Core.ApplicationService.Services
         }
         public Incident CreateIncident(Incident incident)
         {
-            throw new NotImplementedException();
+            return _incidentRepo.Create(incident);
         }
 
         public Incident DeleteIncident(int id)
         {
-            throw new NotImplementedException();
+            return _incidentRepo.Delete(id);
         }
 
         public Incident FindIncidentById(int id)
         {
-            throw new NotImplementedException();
+            return _incidentRepo.ReadById(id);
         }
 
         public List<Incident> GetAllIncidents()
         {
-            throw new NotImplementedException();
+            return _incidentRepo.getAllIncidents().ToList();
         }
 
         public Incident UpdateIncident(Incident updatedIncident)
         {
-            throw new NotImplementedException();
+            return _incidentRepo.Update(updatedIncident);
         }
     }
 }

@@ -8,7 +8,7 @@ using TotalBackend.Core.Entity;
 
 namespace TotalBackend.infrastructure.Data.Repositories
 {
-    class IncidentRepository : IIncidentRepository
+    public class IncidentRepository : IIncidentRepository
     {
         readonly Context _ctx;
         public IncidentRepository(Context ctx)
